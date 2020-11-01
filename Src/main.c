@@ -1,55 +1,23 @@
-/**
+/*
   ******************************************************************************
-  * @file    Templates_LL/Src/main.c 
-  * @author  MCD Application Team
-  * @brief   Main program body through the LL API
+  * @file    Hide-and-seek/Src/main.c
+  * @author  Justin Silver
+  * @brief   LED blinky with LL API
   ******************************************************************************
-  * @attention
-  *
-  * <h2><center>&copy; Copyright (c) 2016 STMicroelectronics.
-  * All rights reserved.</center></h2>
-  *
-  * This software component is licensed by ST under BSD 3-Clause license,
-  * the "License"; You may not use this file except in compliance with the
-  * License. You may obtain a copy of the License at:
-  *                        opensource.org/licenses/BSD-3-Clause
-  *
-  ******************************************************************************
-  */
+ */
 
-/* Includes ------------------------------------------------------------------*/
 #include "main.h"
 
-/** @addtogroup STM32F0xx_LL_Examples
-  * @{
-  */
-
-/** @addtogroup Templates_LL
-  * @{
-  */
-
-/* Private typedef -----------------------------------------------------------*/
-/* Private define ------------------------------------------------------------*/
-/* Private macro -------------------------------------------------------------*/
-/* Private variables ---------------------------------------------------------*/
-/* Private function prototypes -----------------------------------------------*/
 void SystemClock_Config(void);
 
 
-/* Private functions ---------------------------------------------------------*/
-
-/**
-  * @brief  Main program
-  * @param  None
-  * @retval None
-  */
 int main(void)
 {
   /* Configure the system clock to 48 MHz */
   SystemClock_Config();
   
-  /* Add your application code here */
-  
+
+  // Configure the GPIO pin
   
   /* Infinite loop */
   while (1)
@@ -132,12 +100,4 @@ void assert_failed(uint8_t *file, uint32_t line)
 }
 #endif
 
-/**
-  * @}
-  */
-
-/**
-  * @}
-  */
-
-/************************ (C) COPYRIGHT STMicroelectronics *****END OF FILE****/
+/*****END OF FILE****/
