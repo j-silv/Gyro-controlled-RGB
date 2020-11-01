@@ -8,22 +8,52 @@
 
 #include "main.h"
 
-void SystemClock_Config(void);
+LL_GPIO_InitTypeDef gpio_initstruct;
 
+//Function prototypes
+void SystemClock_Config(void);
+void Configure_GPIO(void);
 
 int main(void)
 {
   /* Configure the system clock to 48 MHz */
   SystemClock_Config();
   
+  /* -2- Configure IO in output push-pull mode to drive external LED */
+  Configure_GPIO();
 
-  // Configure the GPIO pin
-  
-  /* Infinite loop */
+  /* Toggle IO in an infinite loop */
   while (1)
   {
+    LL_GPIO_TogglePin(LED2_GPIO_PORT, LED2_PIN);
+
+    /* Insert delay */
+    LL_mDelay(LED_BLINK_FAST);
   }
 }
+
+void Configure_GPIO(void)
+{
+  /* Enable the LED2 Clock */
+  LED2_GPIO_CLK_ENABLE();
+
+  /* Configure IO in output push-pull mode to drive external LED2 */
+  gpio_initstruct.Pin        = LED2_PIN;
+  gpio_initstruct.Mode       = LL_GPIO_MODE_OUTPUT;
+  gpio_initstruct.Speed      = LL_GPIO_SPEED_FREQ_LOW;
+  gpio_initstruct.OutputType = LL_GPIO_OUTPUT_PUSHPULL;
+  gpio_initstruct.Pull       = LL_GPIO_PULL_NO;
+
+  /* Initialize LED2_GPIO_PORT port according to parameters defined in initialization structure. */
+  if (LL_GPIO_Init(LED2_GPIO_PORT, &gpio_initstruct) != SUCCESS)
+  {
+    /* Initialization Error */
+    while (1)
+    {
+    }
+  }
+}
+
 
 /* ==============   BOARD SPECIFIC CONFIGURATION CODE BEGIN    ============== */
 /**

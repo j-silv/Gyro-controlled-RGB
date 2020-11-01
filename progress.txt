@@ -11,6 +11,7 @@ Here are some steps along the way:
 2) Configure USART and blink an LED and send LED ON/OFF messages to serial terminal
 3) Blink an LED with interrupt, send LED ON/OFF messages with interrupt
 4) Use an RTOS to blink and LED and send LED ON/OFF messages
-5) Configure accelerometer peripheral
-6) Accelerometer peripheral with interrupt
-7) Send accelerometer values to USART with interrupt 
+5) Configure SPI peripheral
+6) Communicate via SPI with accelerometer on BeMicro MAX 10 Dev Kit
+7) Accelerometer peripheral with interrupt
+8) Send accelerometer values to USART with interrupt 
