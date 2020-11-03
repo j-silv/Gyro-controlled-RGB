@@ -11,8 +11,10 @@
 LL_GPIO_InitTypeDef gpio_initstruct;
 
 //Function prototypes
+void Configure_SysTick(void);
 void SystemClock_Config(void);
 void Configure_GPIO(void);
+
 
 int main(void)
 {
@@ -22,13 +24,12 @@ int main(void)
   /* -2- Configure IO in output push-pull mode to drive external LED */
   Configure_GPIO();
 
-  /* Toggle IO in an infinite loop */
+  /* Enable interrupt and set RELOAD value */
+  SysTick_Config(SYSCLK_HZ/3); // interrupt triggered every 333 ms
+
+  /* Wait for interrupt */
   while (1)
   {
-    LL_GPIO_TogglePin(LED2_GPIO_PORT, LED2_PIN);
-
-    /* Insert delay */
-    LL_mDelay(LED_BLINK_FAST);
   }
 }
 
@@ -54,6 +55,11 @@ void Configure_GPIO(void)
   }
 }
 
+
+void SysTick_Callback(void)
+{
+	LL_GPIO_TogglePin(LED2_GPIO_PORT, LED2_PIN);
+}
 
 /* ==============   BOARD SPECIFIC CONFIGURATION CODE BEGIN    ============== */
 /**

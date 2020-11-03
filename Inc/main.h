@@ -14,18 +14,16 @@
 #include "stm32_assert.h"
 #endif /* USE_FULL_ASSERT */
 
-
 /* ==============   BOARD SPECIFIC CONFIGURATION CODE BEGIN    ============== */
-/**
-  * @brief LED2
-  */
+// Clk frequency
+#define SYSCLK_HZ 48000000 // 48 MHz
+
+// Onboard LED
 #define LED2_PIN                           LL_GPIO_PIN_5
 #define LED2_GPIO_PORT                     GPIOA
 #define LED2_GPIO_CLK_ENABLE()             LL_AHB1_GRP1_EnableClock(LL_AHB1_GRP1_PERIPH_GPIOA)
 
-/**
-  * @brief Key push-button
-  */
+//Onboard push button
 #define USER_BUTTON_PIN                         LL_GPIO_PIN_13
 #define USER_BUTTON_GPIO_PORT                   GPIOC
 #define USER_BUTTON_GPIO_CLK_ENABLE()           LL_AHB1_GRP1_EnableClock(LL_AHB1_GRP1_PERIPH_GPIOC)   
@@ -40,16 +38,14 @@
 #define USER_BUTTON_IRQHANDLER                  EXTI4_15_IRQHandler
 /* ==============   BOARD SPECIFIC CONFIGURATION CODE END      ============== */
 
-/**
-  * @brief Toggle periods for various blinking modes
-  */
+
+// Toggle periods
 #define LED_BLINK_FAST  200
 #define LED_BLINK_SLOW  500
 #define LED_BLINK_ERROR 1000
 
-/* Exported macro ------------------------------------------------------------*/
-/* Exported functions ------------------------------------------------------- */
+void SysTick_Callback(void);
 
 #endif /* __MAIN_H */
 
-/************************ (C) COPYRIGHT STMicroelectronics *****END OF FILE****/
+/****END OF FILE****/
