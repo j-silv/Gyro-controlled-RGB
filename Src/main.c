@@ -1,36 +1,92 @@
-/*
-  ******************************************************************************
-  * @file    Hide-and-seek/Src/main.c
-  * @author  Justin Silver
-  * @brief   LED blinky with LL API
-  ******************************************************************************
- */
-
 #include "main.h"
 
 LL_GPIO_InitTypeDef gpio_initstruct;
+LL_USART_InitTypeDef usart_initstruct;
+LL_USART_ClockInitTypeDef usartclk_initstruct;
 
-//Function prototypes
+// Function prototypes
 void Configure_SysTick(void);
 void SystemClock_Config(void);
 void Configure_GPIO(void);
+void Configure_USART(void);
+void sendMessage(uint8_t *message, uint8_t message_length);
 
+
+// USART variables
+const uint8_t terminal_setup_msg[] = "***USART COMM WITH LED BLINKY***\r\n";
+uint8_t nb_bytes_sent = 0;
 
 int main(void)
 {
-  /* Configure the system clock to 48 MHz */
+  // Configure the system clock to 48 MHz
   SystemClock_Config();
   
-  /* -2- Configure IO in output push-pull mode to drive external LED */
+  // Configure LED pin
   Configure_GPIO();
 
-  /* Enable interrupt and set RELOAD value */
-  SysTick_Config(SYSCLK_HZ/3); // interrupt triggered every 333 ms
+  // Configure USART peripheral
+  Configure_USART();
 
-  /* Wait for interrupt */
+  // Enable SYSTICK interrupt and set its RELOAD register value
+  SysTick_Config(SYSCLK_HZ/4); // interrupt triggered every 250 ms
+
+  // Setup terminal message
+  sendMessage((uint8_t*)terminal_setup_msg, sizeof(terminal_setup_msg));
+
+  // Send classic message
+  sendMessage((uint8_t*)"Hello, World!\r\n", sizeof("Hello, World!\r\n"));
+
+  // Endless loop (application)
   while (1)
   {
   }
+}
+
+
+void Configure_USART(void)
+{
+	/* Enable the peripheral clock of GPIO Port */
+	USARTx_GPIO_CLK_ENABLE();
+
+	/* Configure Tx Pin as : Alternate function, High Speed, Push pull, Pull up */
+	LL_GPIO_SetPinMode(USARTx_TX_GPIO_PORT, USARTx_TX_PIN, LL_GPIO_MODE_ALTERNATE);
+	USARTx_SET_TX_GPIO_AF();
+	LL_GPIO_SetPinSpeed(USARTx_TX_GPIO_PORT, USARTx_TX_PIN, LL_GPIO_SPEED_FREQ_HIGH);
+	LL_GPIO_SetPinOutputType(USARTx_TX_GPIO_PORT, USARTx_TX_PIN, LL_GPIO_OUTPUT_PUSHPULL);
+	LL_GPIO_SetPinPull(USARTx_TX_GPIO_PORT, USARTx_TX_PIN, LL_GPIO_PULL_UP);
+
+	/* Configure Rx Pin as : Alternate function, High Speed, Push pull, Pull up */
+	LL_GPIO_SetPinMode(USARTx_RX_GPIO_PORT, USARTx_RX_PIN, LL_GPIO_MODE_ALTERNATE);
+	USARTx_SET_RX_GPIO_AF();
+	LL_GPIO_SetPinSpeed(USARTx_RX_GPIO_PORT, USARTx_RX_PIN, LL_GPIO_SPEED_FREQ_HIGH);
+	LL_GPIO_SetPinOutputType(USARTx_RX_GPIO_PORT, USARTx_RX_PIN, LL_GPIO_OUTPUT_PUSHPULL);
+	LL_GPIO_SetPinPull(USARTx_RX_GPIO_PORT, USARTx_RX_PIN, LL_GPIO_PULL_UP);
+
+	/* Enable USART peripheral clock and clock source ***********************/
+	USARTx_CLK_ENABLE();
+
+	/* Set clock source */
+	USARTx_CLK_SOURCE();
+
+	// Configure USART with default values in USART struct
+	LL_USART_StructInit(&usart_initstruct);
+
+	// Set up USART peripheral
+	LL_USART_Init(USARTx_INSTANCE, &usart_initstruct);
+
+	// Configure USART clock with default values in USART clock struct
+	LL_USART_ClockStructInit(&usartclk_initstruct);
+
+	// Set up USART clock settings
+	LL_USART_ClockInit(USARTx_INSTANCE, &usartclk_initstruct);
+
+	// Turn on USART
+	LL_USART_Enable(USARTx_INSTANCE);
+
+	/* Polling USART initialisation */
+	while((!(LL_USART_IsActiveFlag_TEACK(USARTx_INSTANCE))) || (!(LL_USART_IsActiveFlag_REACK(USARTx_INSTANCE))))
+	{
+	}
 }
 
 void Configure_GPIO(void)
@@ -56,6 +112,49 @@ void Configure_GPIO(void)
 }
 
 
+void sendMessage(uint8_t *message, uint8_t message_length)
+{
+  /* Send characters one per one, until last char to be sent */
+  while (nb_bytes_sent < message_length)
+  {
+    /* Wait for TXE flag (data register empty) to be raised */
+    while (!LL_USART_IsActiveFlag_TXE(USARTx_INSTANCE))
+    {
+    }
+
+    /* Copied from example --> doesn't seem to be important for our purposes
+    // If last char to be sent, clear TC flag
+    if (ubSend == (sizeof(aStringToSend) - 1))
+    {
+      LL_USART_ClearFlag_TC(USARTx_INSTANCE);
+    }
+    */
+
+    /* Write character in Transmit Data register.
+       TXE flag is cleared by writing data in TDR register */
+    // return current value of pointer, then increment the pointer position
+    LL_USART_TransmitData8(USARTx_INSTANCE, *(message)++);
+
+    nb_bytes_sent++;
+  }
+
+  /* Wait for TC flag to be raised for last char */
+  while (!LL_USART_IsActiveFlag_TC(USARTx_INSTANCE))
+  {
+  }
+
+  /* Wait for TXE flag to be raised to assure that a new transmission can take place */
+  while (!LL_USART_IsActiveFlag_TXE(USARTx_INSTANCE))
+  {
+  }
+
+  /* Tx sequence completed successfully --> reset nb_bytes_sent */
+  nb_bytes_sent=0;
+}
+
+
+
+// Function called from SysTick interrupt handler
 void SysTick_Callback(void)
 {
 	LL_GPIO_TogglePin(LED2_GPIO_PORT, LED2_PIN);
@@ -109,12 +208,15 @@ void SystemClock_Config(void)
   /* Set systick to 1ms in using frequency set to 48MHz */
   /* This frequency can be calculated through LL RCC macro */
   /* ex: __LL_RCC_CALC_PLLCLK_FREQ (HSI48_VALUE, LL_RCC_PLL_MUL_2, LL_RCC_PREDIV_DIV_2) */
-  LL_Init1msTick(48000000);
+  LL_Init1msTick(SYSCLK_HZ);
   
   /* Update CMSIS variable (which can be updated also through SystemCoreClockUpdate function) */
-  LL_SetSystemCoreClock(48000000);
+  LL_SetSystemCoreClock(SYSCLK_HZ);
 }
 /* ==============   BOARD SPECIFIC CONFIGURATION CODE END      ============== */
+
+
+
 
 #ifdef  USE_FULL_ASSERT
 /**
@@ -135,5 +237,3 @@ void assert_failed(uint8_t *file, uint32_t line)
   }
 }
 #endif
-
-/*****END OF FILE****/

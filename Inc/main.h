@@ -8,15 +8,29 @@
 #include "stm32f0xx_ll_system.h"
 #include "stm32f0xx_ll_utils.h"
 #include "stm32f0xx_ll_gpio.h"
+#include "stm32f0xx_ll_usart.h"
 #include "stm32f0xx_ll_cortex.h"
 
 #if defined(USE_FULL_ASSERT)
 #include "stm32_assert.h"
 #endif /* USE_FULL_ASSERT */
 
+
 /* ==============   BOARD SPECIFIC CONFIGURATION CODE BEGIN    ============== */
 // Clk frequency
 #define SYSCLK_HZ 48000000 // 48 MHz
+
+// USART for Nucleo board
+#define USARTx_INSTANCE 			  USART2
+#define USARTx_CLK_ENABLE()           LL_APB1_GRP1_EnableClock(LL_APB1_GRP1_PERIPH_USART2)
+#define USARTx_CLK_SOURCE()           LL_RCC_SetUSARTClockSource(LL_RCC_USART2_CLKSOURCE_PCLK1)
+#define USARTx_GPIO_CLK_ENABLE()      LL_AHB1_GRP1_EnableClock(LL_AHB1_GRP1_PERIPH_GPIOA)   /* Enable the peripheral clock of GPIOA */
+#define USARTx_TX_PIN                 LL_GPIO_PIN_2
+#define USARTx_TX_GPIO_PORT           GPIOA
+#define USARTx_SET_TX_GPIO_AF()       LL_GPIO_SetAFPin_0_7(GPIOA, LL_GPIO_PIN_2, LL_GPIO_AF_1)
+#define USARTx_RX_PIN                 LL_GPIO_PIN_3
+#define USARTx_RX_GPIO_PORT           GPIOA
+#define USARTx_SET_RX_GPIO_AF()       LL_GPIO_SetAFPin_0_7(GPIOA, LL_GPIO_PIN_3, LL_GPIO_AF_1)
 
 // Onboard LED
 #define LED2_PIN                           LL_GPIO_PIN_5
@@ -44,8 +58,10 @@
 #define LED_BLINK_SLOW  500
 #define LED_BLINK_ERROR 1000
 
+
+// Functions
 void SysTick_Callback(void);
 
-#endif /* __MAIN_H */
 
-/****END OF FILE****/
+
+#endif /* __MAIN_H */

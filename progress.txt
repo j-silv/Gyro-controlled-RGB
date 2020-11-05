@@ -3,7 +3,8 @@ to achieve along the way.
 
 My ultimate goal is to:
 
--Have an RTOS that reads accelerometer values and prints values via USART to serial terminal
+-Have an RTOS that reads accelerometer values via SPI, saves these values via DMA,
+and prints values via USART to serial terminal
 
 Here are some steps along the way:
 
