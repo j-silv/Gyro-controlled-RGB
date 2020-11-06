@@ -14,7 +14,6 @@ void sendMessage(uint8_t *message, uint8_t message_length);
 
 // USART variables
 const uint8_t terminal_setup_msg[] = "***USART COMM WITH LED BLINKY***\r\n";
-uint8_t nb_bytes_sent = 0;
 
 int main(void)
 {
@@ -30,11 +29,8 @@ int main(void)
   // Enable SYSTICK interrupt and set its RELOAD register value
   SysTick_Config(SYSCLK_HZ/4); // interrupt triggered every 250 ms
 
-  // Setup terminal message
+  // Send setup message
   sendMessage((uint8_t*)terminal_setup_msg, sizeof(terminal_setup_msg));
-
-  // Send classic message
-  sendMessage((uint8_t*)"Hello, World!\r\n", sizeof("Hello, World!\r\n"));
 
   // Endless loop (application)
   while (1)
@@ -62,7 +58,7 @@ void Configure_USART(void)
 	LL_GPIO_SetPinOutputType(USARTx_RX_GPIO_PORT, USARTx_RX_PIN, LL_GPIO_OUTPUT_PUSHPULL);
 	LL_GPIO_SetPinPull(USARTx_RX_GPIO_PORT, USARTx_RX_PIN, LL_GPIO_PULL_UP);
 
-	/* Enable USART peripheral clock and clock source ***********************/
+	/* Enable USART peripheral clock and clock source */
 	USARTx_CLK_ENABLE();
 
 	/* Set clock source */
@@ -114,6 +110,9 @@ void Configure_GPIO(void)
 
 void sendMessage(uint8_t *message, uint8_t message_length)
 {
+
+  uint8_t nb_bytes_sent = 0;
+
   /* Send characters one per one, until last char to be sent */
   while (nb_bytes_sent < message_length)
   {
@@ -122,20 +121,14 @@ void sendMessage(uint8_t *message, uint8_t message_length)
     {
     }
 
-    /* Copied from example --> doesn't seem to be important for our purposes
-    // If last char to be sent, clear TC flag
-    if (ubSend == (sizeof(aStringToSend) - 1))
-    {
-      LL_USART_ClearFlag_TC(USARTx_INSTANCE);
-    }
-    */
-
     /* Write character in Transmit Data register.
        TXE flag is cleared by writing data in TDR register */
-    // return current value of pointer, then increment the pointer position
-    LL_USART_TransmitData8(USARTx_INSTANCE, *(message)++);
+    LL_USART_TransmitData8(USARTx_INSTANCE, message[nb_bytes_sent++]);
 
-    nb_bytes_sent++;
+    /******* Another way to transmit data with pointer arithmetic ********/
+    /* return current value of pointer, then increment the pointer position
+    LL_USART_TransmitData8(USARTx_INSTANCE, *(message)++);
+    nb_bytes_sent++; */
   }
 
   /* Wait for TC flag to be raised for last char */
@@ -143,13 +136,7 @@ void sendMessage(uint8_t *message, uint8_t message_length)
   {
   }
 
-  /* Wait for TXE flag to be raised to assure that a new transmission can take place */
-  while (!LL_USART_IsActiveFlag_TXE(USARTx_INSTANCE))
-  {
-  }
-
-  /* Tx sequence completed successfully --> reset nb_bytes_sent */
-  nb_bytes_sent=0;
+  // Tx sequence completed successfully
 }
 
 
@@ -157,8 +144,21 @@ void sendMessage(uint8_t *message, uint8_t message_length)
 // Function called from SysTick interrupt handler
 void SysTick_Callback(void)
 {
-	LL_GPIO_TogglePin(LED2_GPIO_PORT, LED2_PIN);
+	if (LL_GPIO_IsOutputPinSet(LED2_GPIO_PORT,LED2_PIN))
+	{
+		LL_GPIO_ResetOutputPin(LED2_GPIO_PORT,LED2_PIN);
+		sendMessage((uint8_t*)"LED is OFF\r\n", sizeof("LED is OFF\r\n"));
+	}
+
+	else
+	{
+		LL_GPIO_SetOutputPin(LED2_GPIO_PORT,LED2_PIN);
+		sendMessage((uint8_t*)"LED is ON\r\n", sizeof("LED is ON\r\n"));
+	}
 }
+
+
+
 
 /* ==============   BOARD SPECIFIC CONFIGURATION CODE BEGIN    ============== */
 /**

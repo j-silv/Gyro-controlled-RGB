@@ -10,7 +10,7 @@ Here are some steps along the way:
 
 1) Configure GPIO and blink an LED
 2) Configure USART and blink an LED and send LED ON/OFF messages to serial terminal
-3) Blink an LED with interrupt, send LED ON/OFF messages with interrupt
+3) Blink an LED with interrupt, send via USART LED ON/OFF messages with SYSTICK interrupt
 4) Use an RTOS to blink and LED and send LED ON/OFF messages
 5) Configure SPI peripheral
 6) Communicate via SPI with accelerometer on BeMicro MAX 10 Dev Kit
