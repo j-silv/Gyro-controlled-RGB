@@ -1,18 +1,20 @@
-To help track my progress on this project, there are certain milestones I would like
-to achieve along the way.
+OBJECTIVE:
 
-My ultimate goal is to:
+Have an RTOS that reads FPGA accelerometer values via SPI line, saves these values via DMA,
+and prints values via USART to serial terminal. main() processes accelerometer values.
 
--Have an RTOS that reads accelerometer values via SPI, saves these values via DMA,
-and prints values via USART to serial terminal
+MILESTONES:
 
-Here are some steps along the way:
+**Complete**
 
-1) Configure GPIO and blink an LED
-2) Configure USART and blink an LED and send LED ON/OFF messages to serial terminal
-3) Blink an LED with interrupt, send via USART LED ON/OFF messages with SYSTICK interrupt
-4) Use an RTOS to blink and LED and send LED ON/OFF messages
-5) Configure SPI peripheral
-6) Communicate via SPI with accelerometer on BeMicro MAX 10 Dev Kit
-7) Accelerometer peripheral with interrupt
-8) Send accelerometer values to USART with interrupt 
+-Configure GPIO and blink an LED
+-Configure USART and blink an LED and send LED ON/OFF messages to serial terminal
+-Blink an LED with interrupt, send via USART LED ON/OFF messages with SYSTICK interrupt
+
+**In progress**
+
+-Configure SPI peripheral
+-Communicate via SPI with accelerometer on BeMicro MAX 10 Dev Kit
+-Accelerometer peripheral with interrupt
+-Send accelerometer values via USART with SPI interrupt 
+-Use an RTOS to blink LED and send LED ON/OFF messages
