@@ -2,7 +2,7 @@
 #ifndef __MAIN_H
 #define __MAIN_H
 
-/* Includes ------------------------------------------------------------------*/
+/* Drivers */
 #include "stm32f0xx_ll_bus.h"
 #include "stm32f0xx_ll_rcc.h"
 #include "stm32f0xx_ll_system.h"
@@ -10,6 +10,15 @@
 #include "stm32f0xx_ll_gpio.h"
 #include "stm32f0xx_ll_usart.h"
 #include "stm32f0xx_ll_cortex.h"
+
+// Peripherals
+#include "usart.h"
+#include "gpio.h"
+
+// Function prototypes
+void Configure_SysTick(void);
+void SystemClock_Config(void);
+
 
 #if defined(USE_FULL_ASSERT)
 #include "stm32_assert.h"
@@ -53,15 +62,7 @@
 /* ==============   BOARD SPECIFIC CONFIGURATION CODE END      ============== */
 
 
-// Toggle periods
-#define LED_BLINK_FAST  200
-#define LED_BLINK_SLOW  500
-#define LED_BLINK_ERROR 1000
-
-
 // Functions
 void SysTick_Callback(void);
-
-
 
 #endif /* __MAIN_H */

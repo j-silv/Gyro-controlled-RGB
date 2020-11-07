@@ -1,7 +1,10 @@
 OBJECTIVE:
 
-Have an RTOS that reads FPGA accelerometer values via SPI line, saves these values via DMA,
-and prints values via USART to serial terminal. main() processes accelerometer values.
+RTOS that reads FPGA accelerometer values via SPI, saves these values via DMA,
+and prints values via USART to serial terminal. main() processes accelerometer values, and
+depending on the rate of acceleration, the luminosity of onboard LEDs (PWM duty cycle)
+increase/decrease accordingly. For example, if there is a large acceleration in the X direction
+the LED will become brighter.
 
 MILESTONES:
 
@@ -16,5 +19,6 @@ MILESTONES:
 -Configure SPI peripheral
 -Communicate via SPI with accelerometer on BeMicro MAX 10 Dev Kit
 -Accelerometer peripheral with interrupt
--Send accelerometer values via USART with SPI interrupt 
--Use an RTOS to blink LED and send LED ON/OFF messages
+-Send accelerometer values via USART with SPI interrupt
+-Setup PWM signal to control GPIO pin LED luminosity
+-RTOS to control various tasks
