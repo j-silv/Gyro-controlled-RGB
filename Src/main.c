@@ -18,12 +18,11 @@ int main(void)
 {
   // Configure the system clock to 48 MHz
   SystemClock_Config();
-  
-  // Configure LED pin
-  Configure_LED();
 
-  // Configure USART peripheral
+  /* PERIPHERALS */
+  Configure_LED();
   Configure_USART();
+  Configure_SPI();
 
   // Enable SYSTICK interrupt and set its RELOAD register value
   SysTick_Config(SYSCLK_HZ/4); // interrupt triggered every 250 ms

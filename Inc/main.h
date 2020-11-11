@@ -13,6 +13,7 @@
 #include "stm32f0xx_ll_cortex.h"
 
 // Peripherals
+#include "spi.h"
 #include "usart.h"
 #include "led.h"
 
@@ -34,6 +35,8 @@ void SysTick_Callback(void);
 // SPI
 #define SPIx_INSTANCE 			      SPI2
 #define SPIx_CLK_ENABLE()             LL_APB1_GRP1_EnableClock(LL_APB1_GRP1_PERIPH_SPI2)
+
+#define SPIx_GPIO_CLK_ENABLE()        LL_AHB1_GRP1_EnableClock(LL_AHB1_GRP1_PERIPH_GPIOB)
 #define SPIx_SCK_PIN				  LL_GPIO_PIN_3
 #define SPIx_SCK_GPIO_PORT			  GPIOB
 #define SPIx_MISO_PIN				  LL_GPIO_PIN_4
@@ -45,7 +48,7 @@ void SysTick_Callback(void);
 #define USARTx_INSTANCE 			  USART2
 #define USARTx_CLK_ENABLE()           LL_APB1_GRP1_EnableClock(LL_APB1_GRP1_PERIPH_USART2)
 #define USARTx_CLK_SOURCE()           LL_RCC_SetUSARTClockSource(LL_RCC_USART2_CLKSOURCE_PCLK1)
-#define USARTx_GPIO_CLK_ENABLE()      LL_AHB1_GRP1_EnableClock(LL_AHB1_GRP1_PERIPH_GPIOA)   /* Enable the peripheral clock of GPIOA */
+#define USARTx_GPIO_CLK_ENABLE()      LL_AHB1_GRP1_EnableClock(LL_AHB1_GRP1_PERIPH_GPIOA)
 #define USARTx_TX_PIN                 LL_GPIO_PIN_2
 #define USARTx_TX_GPIO_PORT           GPIOA
 #define USARTx_RX_PIN                 LL_GPIO_PIN_3

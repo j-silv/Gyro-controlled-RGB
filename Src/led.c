@@ -2,7 +2,7 @@
 
 void Configure_LED(void)
 {
-  /* Enable the LED2 Clock */
+  /* Enable the AHB clock of the GPIO port that the on-board LED is connected to */
   LED2_GPIO_CLK_ENABLE();
 
   /* Configure IO in output push-pull mode to drive external LED2 */

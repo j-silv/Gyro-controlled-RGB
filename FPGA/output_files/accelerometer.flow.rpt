@@ -1,0 +1,132 @@
+Flow report for accelerometer
+Wed Nov 11 15:21:21 2020
+Quartus II 64-Bit Version 15.0.0 Build 145 04/22/2015 SJ Web Edition
+
+
+---------------------
+; Table of Contents ;
+---------------------
+  1. Legal Notice
+  2. Flow Summary
+  3. Flow Settings
+  4. Flow Non-Default Global Settings
+  5. Flow Elapsed Time
+  6. Flow OS Summary
+  7. Flow Log
+  8. Flow Messages
+  9. Flow Suppressed Messages
+
+
+
+----------------
+; Legal Notice ;
+----------------
+Copyright (C) 1991-2015 Altera Corporation. All rights reserved.
+Your use of Altera Corporation's design tools, logic functions 
+and other software and tools, and its AMPP partner logic 
+functions, and any output files from any of the foregoing 
+(including device programming or simulation files), and any 
+associated documentation or information are expressly subject 
+to the terms and conditions of the Altera Program License 
+Subscription Agreement, the Altera Quartus II License Agreement,
+the Altera MegaCore Function License Agreement, or other 
+applicable license agreement, including, without limitation, 
+that your use is for the sole purpose of programming logic 
+devices manufactured by Altera and sold by Altera or its 
+authorized distributors.  Please refer to the applicable 
+agreement for further details.
+
+
+
++---------------------------------------------------------------------------------+
+; Flow Summary                                                                    ;
++------------------------------------+--------------------------------------------+
+; Flow Status                        ; Successful - Wed Nov 11 15:21:21 2020      ;
+; Quartus II 64-Bit Version          ; 15.0.0 Build 145 04/22/2015 SJ Web Edition ;
+; Revision Name                      ; accelerometer                              ;
+; Top-level Entity Name              ; accelerometer                              ;
+; Family                             ; MAX 10                                     ;
+; Device                             ; 10M08DAF484C8GES                           ;
+; Timing Models                      ; Preliminary                                ;
+; Total logic elements               ; 1 / 8,064 ( < 1 % )                        ;
+;     Total combinational functions  ; 1 / 8,064 ( < 1 % )                        ;
+;     Dedicated logic registers      ; 0 / 8,064 ( 0 % )                          ;
+; Total registers                    ; 0                                          ;
+; Total pins                         ; 8 / 250 ( 3 % )                            ;
+; Total virtual pins                 ; 0                                          ;
+; Total memory bits                  ; 0 / 387,072 ( 0 % )                        ;
+; Embedded Multiplier 9-bit elements ; 0 / 48 ( 0 % )                             ;
+; Total PLLs                         ; 0 / 2 ( 0 % )                              ;
+; UFM blocks                         ; 0 / 1 ( 0 % )                              ;
+; ADC blocks                         ; 0 / 1 ( 0 % )                              ;
++------------------------------------+--------------------------------------------+
+
+
++-----------------------------------------+
+; Flow Settings                           ;
++-------------------+---------------------+
+; Option            ; Setting             ;
++-------------------+---------------------+
+; Start date & time ; 11/11/2020 15:20:19 ;
+; Main task         ; Compilation         ;
+; Revision Name     ; accelerometer       ;
++-------------------+---------------------+
+
+
++----------------------------------------------------------------------------------------------------------------------------+
+; Flow Non-Default Global Settings                                                                                           ;
++-------------------------------------+---------------------------------------+---------------+-------------+----------------+
+; Assignment Name                     ; Value                                 ; Default Value ; Entity Name ; Section Id     ;
++-------------------------------------+---------------------------------------+---------------+-------------+----------------+
+; COMPILER_SIGNATURE_ID               ; 38923010049.160510441909772           ; --            ; --          ; --             ;
+; EDA_OUTPUT_DATA_FORMAT              ; Vhdl                                  ; --            ; --          ; eda_simulation ;
+; EDA_SIMULATION_TOOL                 ; ModelSim-Altera (VHDL)                ; <None>        ; --          ; --             ;
+; MAX_CORE_JUNCTION_TEMP              ; 85                                    ; --            ; --          ; --             ;
+; MIN_CORE_JUNCTION_TEMP              ; 0                                     ; --            ; --          ; --             ;
+; PARTITION_COLOR                     ; 16764057                              ; --            ; --          ; Top            ;
+; PARTITION_FITTER_PRESERVATION_LEVEL ; PLACEMENT_AND_ROUTING                 ; --            ; --          ; Top            ;
+; PARTITION_NETLIST_TYPE              ; SOURCE                                ; --            ; --          ; Top            ;
+; POWER_BOARD_THERMAL_MODEL           ; None (CONSERVATIVE)                   ; --            ; --          ; --             ;
+; POWER_PRESET_COOLING_SOLUTION       ; 23 MM HEAT SINK WITH 200 LFPM AIRFLOW ; --            ; --          ; --             ;
+; PROJECT_OUTPUT_DIRECTORY            ; output_files                          ; --            ; --          ; --             ;
++-------------------------------------+---------------------------------------+---------------+-------------+----------------+
+
+
++-------------------------------------------------------------------------------------------------------------------------------+
+; Flow Elapsed Time                                                                                                             ;
++---------------------------+--------------+-------------------------+---------------------+------------------------------------+
+; Module Name               ; Elapsed Time ; Average Processors Used ; Peak Virtual Memory ; Total CPU Time (on all processors) ;
++---------------------------+--------------+-------------------------+---------------------+------------------------------------+
+; Analysis & Synthesis      ; 00:00:21     ; 1.0                     ; 4834 MB             ; 00:00:50                           ;
+; Fitter                    ; 00:00:10     ; 1.1                     ; 5283 MB             ; 00:00:11                           ;
+; Assembler                 ; 00:00:03     ; 1.0                     ; 4739 MB             ; 00:00:03                           ;
+; TimeQuest Timing Analyzer ; 00:00:06     ; 1.0                     ; 4833 MB             ; 00:00:06                           ;
+; EDA Netlist Writer        ; 00:00:03     ; 1.0                     ; 4709 MB             ; 00:00:03                           ;
+; Total                     ; 00:00:43     ; --                      ; --                  ; 00:01:13                           ;
++---------------------------+--------------+-------------------------+---------------------+------------------------------------+
+
+
++----------------------------------------------------------------------------------------+
+; Flow OS Summary                                                                        ;
++---------------------------+------------------+-----------+------------+----------------+
+; Module Name               ; Machine Hostname ; OS Name   ; OS Version ; Processor type ;
++---------------------------+------------------+-----------+------------+----------------+
+; Analysis & Synthesis      ; Justin           ; Windows 7 ; 6.2        ; x86_64         ;
+; Fitter                    ; Justin           ; Windows 7 ; 6.2        ; x86_64         ;
+; Assembler                 ; Justin           ; Windows 7 ; 6.2        ; x86_64         ;
+; TimeQuest Timing Analyzer ; Justin           ; Windows 7 ; 6.2        ; x86_64         ;
+; EDA Netlist Writer        ; Justin           ; Windows 7 ; 6.2        ; x86_64         ;
++---------------------------+------------------+-----------+------------+----------------+
+
+
+------------
+; Flow Log ;
+------------
+quartus_map --read_settings_files=on --write_settings_files=off accelerometer -c accelerometer
+quartus_fit --read_settings_files=off --write_settings_files=off accelerometer -c accelerometer
+quartus_asm --read_settings_files=off --write_settings_files=off accelerometer -c accelerometer
+quartus_sta accelerometer -c accelerometer
+quartus_eda --read_settings_files=off --write_settings_files=off accelerometer -c accelerometer
+
+
+

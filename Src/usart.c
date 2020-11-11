@@ -2,7 +2,7 @@
 
 void Configure_USART(void)
 {
-	/* Enable the peripheral clock of GPIO Port */
+	/* Enable the AHB clock of the GPIO Port that the USART peripheral is connected to */
 	USARTx_GPIO_CLK_ENABLE();
 
 	/* Configure Tx Pin as : Alternate function, High Speed, Push pull, Pull up */
@@ -39,7 +39,7 @@ void Configure_USART(void)
 		}
 	}
 
-	/* Enable USART peripheral clock and clock source */
+	/* Enable the APB clock for the USART peripheral*/
 	USARTx_CLK_ENABLE();
 
 	/* Set clock source */
@@ -48,14 +48,26 @@ void Configure_USART(void)
 	// Configure USART with default values in USART struct
 	LL_USART_StructInit(&usart_initstruct);
 
-	// Set up USART peripheral
-	LL_USART_Init(USARTx_INSTANCE, &usart_initstruct);
+	/* Initialize USART2 according to parameters defined in initialization structure. */
+	if (LL_USART_Init(USARTx_INSTANCE, &usart_initstruct) != SUCCESS)
+	{
+		/* Initialization Error */
+		while (1)
+		{
+		}
+	}
 
 	// Configure USART clock with default values in USART clock struct
 	LL_USART_ClockStructInit(&usartclk_initstruct);
 
-	// Set up USART clock settings
-	LL_USART_ClockInit(USARTx_INSTANCE, &usartclk_initstruct);
+	/* Initialize USART2 Clock according to parameters defined in initialization structure. */
+	if (LL_USART_ClockInit(USARTx_INSTANCE, &usartclk_initstruct) != SUCCESS)
+	{
+		/* Initialization Error */
+		while (1)
+		{
+		}
+	}
 
 	// Turn on USART
 	LL_USART_Enable(USARTx_INSTANCE);

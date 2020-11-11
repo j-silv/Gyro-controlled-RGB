@@ -17,10 +17,10 @@ MILESTONES:
 -Configure GPIO and blink an LED
 -Configure USART and blink an LED and send LED ON/OFF messages to serial terminal
 -Blink an LED with interrupt, send via USART LED ON/OFF messages with SYSTICK interrupt
+-Configure SPI peripheral
 
 **In progress**
 
--Configure SPI peripheral
 -Configure SPI for DMA
 -Write accelerometer driver
 -Communicate via SPI with accelerometer on BeMicro MAX 10 Dev Kit

@@ -2,7 +2,7 @@
 
 void Configure_SPI(void)
 {
-	// Enable the peripheral clock of GPIOB
+	/* Enable the AHB clock of the GPIO Port that the SPI peripheral is connected to */
 	SPIx_GPIO_CLK_ENABLE();
 
 	// Configure SCK Pin connected to pin 31 of CN10 connector
@@ -57,33 +57,49 @@ void Configure_SPI(void)
 	}
 
 // ********* INTERRUPTS*************
-/*// (2) Configure NVIC for SPI1 transfer complete/error interrupts *********
-  // Set priority for SPI1_IRQn
-  NVIC_SetPriority(SPI1_IRQn, 0);
-  // Enable SPI1_IRQn
-  NVIC_EnableIRQ(SPI1_IRQn);*/
+/*// (2) Configure NVIC for SPI2 transfer complete/error interrupts *********
+  // Set priority for SPI2_IRQn
+  NVIC_SetPriority(SPI2_IRQn, 0);
+  // Enable SPI2_IRQn
+  NVIC_EnableIRQ(SPI2_IRQn);*/
 // ********* INTERRUPTS ***********
 
-  // (3) Configure SPI1 functional parameters *******************************
+  /* Enable the APB clock for the SPI2 peripheral*/
+  SPIx_CLK_ENABLE();
 
-  // Enable the peripheral clock of GPIOB
-  LL_APB1_GRP2_EnableClock(LL_APB1_GRP2_PERIPH_SPI1);
+  /* Configuration information for the SPI initiziation structure */
+  spi_initstruct.TransferDirection = LL_SPI_FULL_DUPLEX;
+  spi_initstruct.Mode              = LL_SPI_MODE_MASTER;
+  spi_initstruct.DataWidth         = LL_SPI_DATAWIDTH_8BIT;
+  spi_initstruct.ClockPolarity     = LL_SPI_POLARITY_HIGH;
+  spi_initstruct.ClockPhase        = LL_SPI_PHASE_2EDGE;
+  spi_initstruct.NSS               = LL_SPI_NSS_SOFT;
+  spi_initstruct.BaudRate          = LL_SPI_BAUDRATEPRESCALER_DIV256;
+  spi_initstruct.BitOrder          = LL_SPI_MSB_FIRST;
+  spi_initstruct.CRCCalculation    = LL_SPI_CRCCALCULATION_DISABLE;
+  spi_initstruct.CRCPoly           = 7U;
 
- //  Configure SPI1 communication
-  LL_SPI_SetBaudRatePrescaler(SPI1, LL_SPI_BAUDRATEPRESCALER_DIV256);
-  LL_SPI_SetTransferDirection(SPI1,LL_SPI_FULL_DUPLEX);
-  LL_SPI_SetClockPhase(SPI1, LL_SPI_PHASE_2EDGE);
-  LL_SPI_SetClockPolarity(SPI1, LL_SPI_POLARITY_HIGH);
- //  Reset value is LL_SPI_MSB_FIRST
-  //LL_SPI_SetTransferBitOrder(SPI1, LL_SPI_MSB_FIRST);
-  LL_SPI_SetDataWidth(SPI1, LL_SPI_DATAWIDTH_8BIT);
-  LL_SPI_SetNSSMode(SPI1, LL_SPI_NSS_SOFT);
-  LL_SPI_SetRxFIFOThreshold(SPI1, LL_SPI_RX_FIFO_TH_QUARTER);
+  // Set threshold of RXFIFO that triggers an RXNE event
+  LL_SPI_SetRxFIFOThreshold(SPI2, LL_SPI_RX_FIFO_TH_QUARTER);
 
-
-  // Set the nucleo board as the master in SPI comm
-  LL_SPI_SetMode(SPI1, LL_SPI_MODE_MASTER);
+  /* Initialize SPI2 according to parameters defined in initialization structure. */
+  if (LL_SPI_Init(SPIx_INSTANCE, &spi_initstruct) != SUCCESS)
+  {
+    /* Initialization Error */
+    while (1)
+    {
+    }
+  }
 
  //  Enable SPI2
   LL_SPI_Enable(SPI2);
 }
+
+
+void testSPIDevice(void)
+{
+
+
+
+}
+
