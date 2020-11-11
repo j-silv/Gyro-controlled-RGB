@@ -20,7 +20,7 @@ int main(void)
   SystemClock_Config();
   
   // Configure LED pin
-  Configure_GPIO();
+  Configure_LED();
 
   // Configure USART peripheral
   Configure_USART();

@@ -6,18 +6,38 @@ void Configure_USART(void)
 	USARTx_GPIO_CLK_ENABLE();
 
 	/* Configure Tx Pin as : Alternate function, High Speed, Push pull, Pull up */
-	LL_GPIO_SetPinMode(USARTx_TX_GPIO_PORT, USARTx_TX_PIN, LL_GPIO_MODE_ALTERNATE);
-	USARTx_SET_TX_GPIO_AF();
-	LL_GPIO_SetPinSpeed(USARTx_TX_GPIO_PORT, USARTx_TX_PIN, LL_GPIO_SPEED_FREQ_HIGH);
-	LL_GPIO_SetPinOutputType(USARTx_TX_GPIO_PORT, USARTx_TX_PIN, LL_GPIO_OUTPUT_PUSHPULL);
-	LL_GPIO_SetPinPull(USARTx_TX_GPIO_PORT, USARTx_TX_PIN, LL_GPIO_PULL_UP);
+	gpio_usart_initstruct.Pin        = USARTx_TX_PIN;
+	gpio_usart_initstruct.Mode       = LL_GPIO_MODE_ALTERNATE;
+	gpio_usart_initstruct.Speed      = LL_GPIO_SPEED_FREQ_LOW;
+	gpio_usart_initstruct.OutputType = LL_GPIO_OUTPUT_PUSHPULL;
+	gpio_usart_initstruct.Pull       = LL_GPIO_PULL_UP;
+	gpio_usart_initstruct.Alternate  = LL_GPIO_AF_1; // Mapped to USART2 peripheral
+
+	/* Initialize USART2_TX_GPIO port according to parameters defined in initialization structure. */
+	if (LL_GPIO_Init(USARTx_TX_GPIO_PORT, &gpio_usart_initstruct) != SUCCESS)
+	{
+		/* Initialization Error */
+		while (1)
+		{
+		}
+	}
 
 	/* Configure Rx Pin as : Alternate function, High Speed, Push pull, Pull up */
-	LL_GPIO_SetPinMode(USARTx_RX_GPIO_PORT, USARTx_RX_PIN, LL_GPIO_MODE_ALTERNATE);
-	USARTx_SET_RX_GPIO_AF();
-	LL_GPIO_SetPinSpeed(USARTx_RX_GPIO_PORT, USARTx_RX_PIN, LL_GPIO_SPEED_FREQ_HIGH);
-	LL_GPIO_SetPinOutputType(USARTx_RX_GPIO_PORT, USARTx_RX_PIN, LL_GPIO_OUTPUT_PUSHPULL);
-	LL_GPIO_SetPinPull(USARTx_RX_GPIO_PORT, USARTx_RX_PIN, LL_GPIO_PULL_UP);
+	gpio_usart_initstruct.Pin        = USARTx_RX_PIN;
+	gpio_usart_initstruct.Mode       = LL_GPIO_MODE_ALTERNATE;
+	gpio_usart_initstruct.Speed      = LL_GPIO_SPEED_FREQ_LOW;
+	gpio_usart_initstruct.OutputType = LL_GPIO_OUTPUT_PUSHPULL;
+	gpio_usart_initstruct.Pull       = LL_GPIO_PULL_UP;
+	gpio_usart_initstruct.Alternate  = LL_GPIO_AF_1; // Mapped to USART2 peripheral
+
+	/* Initialize USART2_RX_GPIO port according to parameters defined in initialization structure. */
+	if (LL_GPIO_Init(USARTx_RX_GPIO_PORT, &gpio_usart_initstruct) != SUCCESS)
+	{
+		/* Initialization Error */
+		while (1)
+		{
+		}
+	}
 
 	/* Enable USART peripheral clock and clock source */
 	USARTx_CLK_ENABLE();
