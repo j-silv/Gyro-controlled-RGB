@@ -67,7 +67,7 @@ void Configure_SPI(void)
   /* Enable the APB clock for the SPI2 peripheral*/
   SPIx_CLK_ENABLE();
 
-  /* Configuration information for the SPI initiziation structure */
+  /* Configuration information for the SPI initialization structure */
   spi_initstruct.TransferDirection = LL_SPI_FULL_DUPLEX;
   spi_initstruct.Mode              = LL_SPI_MODE_MASTER;
   spi_initstruct.DataWidth         = LL_SPI_DATAWIDTH_8BIT;
@@ -96,10 +96,10 @@ void Configure_SPI(void)
 }
 
 
-void testSPIDevice(void)
+/*void testSPIDevice(void)
 {
 
 
 
-}
+}*/
 
