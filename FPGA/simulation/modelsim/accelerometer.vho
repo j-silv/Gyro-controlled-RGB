@@ -17,7 +17,7 @@
 -- PROGRAM "Quartus II 64-Bit"
 -- VERSION "Version 15.0.0 Build 145 04/22/2015 SJ Web Edition"
 
--- DATE "11/11/2020 15:21:21"
+-- DATE "11/14/2020 16:31:57"
 
 -- 
 -- Device: Altera 10M08DAF484C8GES Package FBGA484

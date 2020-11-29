@@ -16,6 +16,7 @@
 #include "spi.h"
 #include "usart.h"
 #include "led.h"
+#include "adxl362_acc.h"
 
 // Function prototypes
 void Configure_SysTick(void);

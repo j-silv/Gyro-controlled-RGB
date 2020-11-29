@@ -73,3 +73,4 @@ set_instance_assignment -name IO_STANDARD "3.3-V LVCMOS" -to MOSI_PMOD
 set_instance_assignment -name IO_STANDARD "3.3-V LVCMOS" -to SCK_PMOD
 set_instance_assignment -name IO_STANDARD "3.3-V LVCMOS" -to CS_PMOD
 set_instance_assignment -name PARTITION_HIERARCHY root_partition -to | -section_id Top
+set_global_assignment -name CDF_FILE output_files/Chain1.cdf

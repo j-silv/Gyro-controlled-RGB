@@ -3,16 +3,17 @@
   * File: Main application code
   * Author: Justin Silver
   *
-  * An LED is toggled every 250 ms by a SysTick interrupt.
-  * A message is then sent to the serial terminal (USART) to indicate the current
-  * state of the LED (on/off).
+  * 
+  * The SPI communication line is tested with accelerometer peripheral
+  * 
   *
   ******************************************************************************
   */
 
 #include "main.h"
 
-const uint8_t terminal_setup_msg[] = "***USART COMM WITH LED BLINKY***\r\n";
+const uint8_t terminal_setup_msg[] = "***USART COMM SPI TEST***\r\n";
+uint8_t SPI_RX_buffer;
 
 int main(void)
 {
@@ -24,11 +25,21 @@ int main(void)
   Configure_USART();
   Configure_SPI();
 
+  /* FOR TESTING, DISABLE INTERRUPTS
   // Enable SYSTICK interrupt and set its RELOAD register value
   SysTick_Config(SYSCLK_HZ/4); // interrupt triggered every 250 ms
+  */
 
   // Send setup message
   sendMessage((uint8_t*)terminal_setup_msg, sizeof(terminal_setup_msg));
+
+
+  // Turn measurement mode ON in SPI slave
+  configSlave();
+  // Check device ID and store in receive buffer
+  SPI_RX_buffer = checkSlaveID();
+  // Print out result and see if it matches actual ID (in ISO 8859-1, result should be SHY = 0x00AD)
+  sendMessage(&SPI_RX_buffer,sizeof(SPI_RX_buffer));
 
   // Endless loop (application)
   while (1)
@@ -43,13 +54,13 @@ void SysTick_Callback(void)
 	if (LL_GPIO_IsOutputPinSet(LED2_GPIO_PORT,LED2_PIN))
 	{
 		LL_GPIO_ResetOutputPin(LED2_GPIO_PORT,LED2_PIN);
-		sendMessage((uint8_t*)"LED is OFF\r\n", sizeof("LED is OFF\r\n"));
+		//sendMessage((uint8_t*)"LED is OFF\r\n", sizeof("LED is OFF\r\n"));
 	}
 
 	else
 	{
 		LL_GPIO_SetOutputPin(LED2_GPIO_PORT,LED2_PIN);
-		sendMessage((uint8_t*)"LED is ON\r\n", sizeof("LED is ON\r\n"));
+		//sendMessage((uint8_t*)"LED is ON\r\n", sizeof("LED is ON\r\n"));
 	}
 }
 

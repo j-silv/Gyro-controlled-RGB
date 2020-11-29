@@ -21,6 +21,7 @@ MILESTONES:
 
 **In progress**
 
+-Create schematic detailing pin connections between STM32 uC, FPGA dev kit, and headers inbetween
 -Configure SPI for DMA
 -Write accelerometer driver
 -Communicate via SPI with accelerometer on BeMicro MAX 10 Dev Kit
